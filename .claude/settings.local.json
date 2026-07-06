@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(codex --version)",
+      "Bash(npm --version)",
+      "Bash(brew --version)",
+      "Bash(npm install *)",
+      "Bash(codex --help)",
+      "Bash(codex login *)",
+      "Bash(codex exec *)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  }
+}
