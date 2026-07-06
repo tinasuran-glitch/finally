@@ -454,3 +454,15 @@ The container is designed to deploy to AWS App Runner, Render, or any container 
 - Portfolio visualization: heatmap renders with correct colors, P&L chart has data points
 - AI chat (mocked): send a message, receive a response, trade execution appears inline
 - SSE resilience: disconnect and verify reconnection
+
+---
+
+## 13. Doc Review Notes
+
+### Clarifications needed
+
+- **Unknown tickers**: Section 6 implies the simulator has fixed seed prices for a known list of tickers (AAPL ~$190, etc.), but Sections 2 and 10 let the user add arbitrary tickers via the UI or chat. What happens when a user adds a ticker the simulator doesn't recognize — does it generate a seed price on the fly, or is adding restricted to a known set?
+- **Massive API error handling**: Not specified what happens if Massive returns an error for a ticker (invalid symbol, rate limit hit, etc.) — worth a line on fallback behavior.
+- **Fractional shares in UI**: the DB schema supports fractional `quantity`, but the trade bar description doesn't say whether the quantity input accepts decimals. Worth confirming either way.
+- **Initial watchlist prices vs. SSE**: `GET /api/watchlist` returns tickers "with latest prices" — is this just for first paint before the SSE connection opens, with SSE as the source of truth afterward? Worth stating explicitly so the Frontend Engineer doesn't build redundant polling.
+
