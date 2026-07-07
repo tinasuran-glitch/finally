@@ -174,3 +174,176 @@ This document is implementation-ready. A backend team can:
 ## Summary
 
 The commit successfully closes the gap between high-level architecture (PLAN.md) and implementable code. All four open questions from REVIEW_code.md are resolved with clear reasoning and concrete examples. The design is solid, async-first, and ready for a backend team to execute. The only pending item is validation against the real Massive/Polygon.io API contract once available.
+
+---
+
+# Review: Commits 383a432 & d5db4f2 — Refinements & Artifact
+
+**Session:** `6b878155-5725-5e22-a7dd-a7c23698806b`  
+**Branch:** `claude/market-data-backend-design-mxtrfd`  
+**Period:** 2026-07-07 (continued from commit 05d5fb7)
+
+## Overview
+
+After the initial market data design commit (`05d5fb7`), this session delivered two follow-up commits: a substantial refinement addressing correctness issues and missing details (`383a432`), and a point-in-time review artifact (`d5db4f2`).
+
+## Commit 383a432: Correctness Fixes & Deep Dive
+
+### What Was Fixed
+
+#### 1. **Quote Serialization** ✅
+- **Problem:** `Quote` uses `@dataclass(slots=True)`, which has no `__dict__`. Direct JSON serialization via `json.dumps(quote.__dict__)` would crash.
+- **Solution:** Introduced `Quote.to_dict()` method (§3.1, lines 167–181) that flattens the `Direction` enum to its string value. All SSE/REST paths now call this method.
+- **Impact:** Prevents runtime crashes in the SSE event generator.
+
+#### 2. **Invisible Price Motion** ✅
+- **Problem:** Annualized volatility applied at 500ms ticks yields imperceptible motion (~0.009% per tick). Users see a frozen ticker.
+- **Solution:** Introduced **accelerated market time** via `sim_market_seconds_per_tick` (default 240s ≈ 4 market-minutes per tick). Math is worked out in comments (§2, line 88): with typical sigma (0.2–0.4), this gives lively ~0.1–0.2% motion per tick without being cartoonish.
+- **Implementation:** All GBM calculations now use `market_seconds` not `wall_seconds`.
+- **Impact:** Simulator is now visually responsive while remaining mathematically sound.
+
+#### 3. **Degraded-Flag Clobber** ✅
+- **Problem:** When the Massive provider fetches a batch and one ticker is missing, the loop would set `degraded = False` on next iteration even if the API was down, losing the error state.
+- **Solution:** Moved all failure bookkeeping into `_run_loop()`, making the flag transition explicit and atomic. `_poll_batch()` now returns only resolved quotes; errors are handled in one place.
+- **Impact:** Degraded flag is durable; health check `/api/health` accurately reflects connection status.
+
+#### 4. **Efficient SSE Streaming** ✅
+- **Problem:** Naive implementation re-broadcasts the entire watchlist on every tick, wasting bandwidth.
+- **Solution:** 
+  - Added versioned `PriceCache` (§4, lines 223–267): each cache update increments a version; consumers query `changes_since(version)` to get deltas only.
+  - Fixed initial snapshot logic: client gets version 0 on connect, then receives only changed tickers, preventing phantom duplicate.
+  - Added keep-alive ping every 15s (configurable) to prevent proxy timeouts.
+- **Impact:** SSE bandwidth drops O(N) to O(Δ) — orders of magnitude better for large watchlists.
+
+#### 5. **Batched Massive Startup** ✅
+- **Problem:** `watch_many()` default was sequential, causing N REST calls at startup and rate-limit issues.
+- **Solution:** `MassiveProvider.watch_many()` overrides the base to batch tickers into one request (§6.2, lines 464–468).
+- **Implementation:** Calls `_poll_batch([tickers])` once, respecting `MASSIVE_POLL_SECONDS`.
+- **Impact:** Startup is fast; no rate-limit thrashing.
+
+#### 6. **Ticker Normalization & Validation** ✅
+- **Problem:** Inconsistent casing and malformed input could create silent desync (e.g., `aapl` vs `AAPL`, or ticker `"$$$"`).
+- **Solution:** 
+  - `normalize_ticker(raw)` (§3.2, lines 206–211): uppercase + trim + regex validation.
+  - Two error types: `InvalidTickerError` (bad format, e.g., `"$$$"`) and `UnknownTickerError` (well-formed but unresolvable, e.g., Massive 404).
+  - All API endpoints call `normalize_ticker()` on input; REST error handling maps these to `422 Unprocessable Entity` with distinct messages.
+- **Impact:** Canonical single cache key; no silent mismatches; API clients get clear feedback.
+
+#### 7. **Pydantic Request/Response Models** ✅
+- **Problem:** Naive use of `body["ticker"]` can raise `KeyError` → 500 errors instead of 422.
+- **Solution:** Added Pydantic models for all requests (e.g., `WatchlistAddRequest`) and responses. FastAPI automatically validates and rejects malformed input with 422.
+- **Impact:** No more 500 errors from missing/malformed fields; clients get structured 422 feedback.
+
+#### 8. **Centralized Configuration** ✅
+- **Problem:** Tunables scattered across multiple modules; hard to override in tests and to reason about behavior.
+- **Solution:** All settings live in `app/config.py` (§2) using Pydantic `BaseSettings`:
+  - Provider selection (`MASSIVE_API_KEY`)
+  - Streaming cadence (`tick_seconds`, `sse_disconnect_check_seconds`, `sse_ping_seconds`)
+  - Simulator dynamics (`sim_market_seconds_per_tick`, `sim_correlation_beta`, `sim_event_prob_per_tick`, `sim_seed`)
+  - Massive polling (`massive_base_url`, `massive_poll_seconds`, `massive_http_timeout`)
+- **Access:** `from app.config import get_settings()` (singleton with LRU cache).
+- **Testing:** Override via environment or direct instantiation.
+- **Impact:** Single source of truth; config changes are immediately visible across modules.
+
+#### 9. **Portfolio Consumer Contract** ✅
+- **New section (§8)** explicitly documents the concurrency contract between market data and portfolio:
+  - `get_price(ticker)` and `get_quote(ticker)` are synchronous (no await) and safe to call from any task.
+  - No race conditions on valuation, P&L, or snapshots; all reads go through the versioned cache.
+  - Trade handler calls `await provider.watch(ticker)` if quote is `None`, ensuring no trade executes at `None` price.
+- **Impact:** Portfolio team has a clear, safe contract; no concurrency hazards.
+
+#### 10. **Expanded Test Plan** ✅
+- **Additions:** 
+  - Deterministic unknown seed synthesis (reproducible for same ticker).
+  - Price bounds validation (realistic range checks).
+  - Sector correlation statistics.
+  - SSE version tracking (no phantom duplicates).
+  - Degraded flag resilience (recovery after transient failures).
+  - Batch API efficiency (Massive watch_many in one request).
+- **Coverage:** All new correctness fixes have corresponding test scenarios.
+
+#### 11. **Decisions Table** ✅
+- Expanded §9 to address all eight refinements above.
+- Each decision includes **problem**, **chosen approach**, and **rationale**.
+
+### Code Quality of Refinement
+
+- **Complexity increase is justified:** Each addition solves a real problem that would manifest in production.
+- **No feature creep:** All additions are either bug fixes or essential operational details.
+- **Backward compatible:** No breaking changes to the interface; all additions are internal or clarifications.
+- **Documentation quality:** Inline comments explain non-obvious logic (e.g., beta blending, accelerated market time math).
+
+### Readability
+
+The document has grown from ~800 to ~1050 lines but remains well-organized:
+- Clear section headings and nested structure.
+- Code snippets are labeled with file paths and line ranges.
+- Inline comments in code explain the "why", not just the "what".
+- Decisions table (§9) provides a quick reference for all major choices.
+
+---
+
+## Commit d5db4f2: Review Artifact
+
+**Type:** Auto-generated point-in-time review of commit `05d5fb7`  
+**Appended to:** `planning/REVIEW.md`  
+**Lines added:** 142
+
+### Purpose & Context
+
+This review was generated by the agent's reviewer to capture findings on the *initial* design commit (`05d5fb7`) at the time refinements (`383a432`) were implemented. It serves as a durable checkpoint showing:
+1. What issues were identified in the first draft.
+2. How they were addressed (or scoped) in the refinement.
+
+### Findings in the Review
+
+The review identified three severity levels:
+
+**High (0):** No critical blockers.
+
+**Medium (1):** API placeholder for Massive/Polygon.io  
+- **Issue:** URL, request shape, response format are placeholders (§6.3 in the design).
+- **Status:** Addressed in refinement: Added `MASSIVE_BASE_URL` config (§2) and notes that only `_fetch_one() / _poll_batch()` need updates when real docs arrive.
+
+**Low (2):** 
+1. Fractional-share precision: 4 decimal places is reasonable but should match frontend/DB constraints.
+   - **Status:** Scoped in refinement (§3.1 comment suggests `PRICE_DECIMAL_PLACES` constant for future).
+   
+2. Seed data is subjective: Known seeds (AAPL mu=0.05, TSLA sigma=0.55) are reasonable but not calibrated to historical data.
+   - **Status:** Scoped in refinement; noted as appropriate for prototype; production should backfill with real IV and correlation matrices.
+
+### Audit of Review Accuracy
+
+The review is accurate and adds value:
+- ✅ Correctly identifies that the design is implementation-ready despite Medium/Low findings.
+- ✅ All Medium/Low issues are addressable and scoped appropriately.
+- ✅ Doesn't mask any real problems; the design is genuinely solid.
+
+### Use as Checkpoint
+
+By appending this to `REVIEW.md`, the branch creates a durable record:
+- Future readers see what was known at the time of the refinement.
+- If questions arise later, this review provides context for decisions.
+- The review's findings feed into the refinement work (commit `383a432`).
+
+---
+
+## Summary of Session Work
+
+**Three commits delivered:**
+
+1. **`05d5fb7`**: Initial design (747 lines) — comprehensive implementation spec with interface, simulator, Massive provider, SSE, REST, and test strategy.
+
+2. **`383a432`**: Refinement (548 insertions, 292 deletions) — eight correctness fixes + deeper operational details: Quote serialization, accelerated market time, robust degraded flag, efficient SSE with versioning, batched Massive startup, ticker validation, Pydantic models, centralized config, and portfolio contract.
+
+3. **`d5db4f2`**: Review artifact (142 lines) — point-in-time review of commit `05d5fb7`, capturing findings at the time of refinement. All Medium/Low issues are scoped and addressed.
+
+**Overall assessment:**
+- ✅ Design is implementation-ready.
+- ✅ All major correctness issues identified and fixed.
+- ✅ Operational details (config, SSE efficiency, Massive resilience) are now covered.
+- ✅ Clear contract with portfolio/trade modules.
+- ✅ Test strategy is comprehensive.
+- ⏳ Pending: Validation against real Massive/Polygon.io API contract (acceptable; noted in Medium finding).
+
+**Branch status:** Clean, all commits pushed, ready for code review or handoff to backend team.
