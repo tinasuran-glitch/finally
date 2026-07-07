@@ -4,7 +4,11 @@ A visually stunning AI-powered trading workstation that streams live market data
 
 Built entirely by coding agents as a capstone project for an agentic AI coding course.
 
-## Features
+## Status
+
+In progress. Only the **market data backend** is built so far — see [`planning/MARKET_DATA_SUMMARY.md`](planning/MARKET_DATA_SUMMARY.md) for details. The frontend, portfolio/trading API, LLM chat, database, and Docker packaging described below are not yet implemented. See [`planning/PLAN.md`](planning/PLAN.md) for the full spec.
+
+## Features (planned)
 
 - **Live price streaming** via SSE with green/red flash animations
 - **Simulated portfolio** — $10k virtual cash, market orders, instant fills
@@ -13,7 +17,7 @@ Built entirely by coding agents as a capstone project for an agentic AI coding c
 - **Watchlist management** — track tickers manually or via AI
 - **Dark terminal aesthetic** — Bloomberg-inspired, data-dense layout
 
-## Architecture
+## Architecture (target)
 
 Single Docker container serving everything on port 8000:
 
@@ -23,17 +27,30 @@ Single Docker container serving everything on port 8000:
 - **AI**: LiteLLM → OpenRouter (Cerebras inference) with structured outputs
 - **Market data**: Built-in GBM simulator (default) or Massive API (optional)
 
+Today only the market data piece exists, runnable directly with `uv` — there's no Dockerfile, frontend, database, or API layer in the repo yet.
+
 ## Quick Start
 
 ```bash
-# Clone and configure
+cd backend
+uv sync --extra dev
+
+# Run the test suite
+uv run pytest -v
+
+# Live terminal demo of the simulator (Rich dashboard, 10 tickers, sparklines)
+uv run market_data_demo.py
+```
+
+See [`backend/README.md`](backend/README.md) and [`backend/CLAUDE.md`](backend/CLAUDE.md) for full backend developer instructions.
+
+Once the frontend, database, and API layer exist, the plan is a one-command Docker flow (see [`planning/PLAN.md`](planning/PLAN.md) §11) — not functional yet, since no Dockerfile or `.env.example` exists in the repo:
+
+```bash
 cp .env.example .env
 # Add your OPENROUTER_API_KEY to .env
-
-# Run with Docker
 docker build -t finally .
 docker run -v finally-data:/app/db -p 8000:8000 --env-file .env finally
-
 # Open http://localhost:8000
 ```
 
@@ -49,13 +66,11 @@ docker run -v finally-data:/app/db -p 8000:8000 --env-file .env finally
 
 ```
 finally/
-├── frontend/    # Next.js static export
-├── backend/     # FastAPI uv project
-├── planning/    # Project documentation and agent contracts
-├── test/        # Playwright E2E tests
-├── db/          # SQLite volume mount (runtime)
-└── scripts/     # Start/stop helpers
+├── backend/     # FastAPI uv project (market data subsystem built; portfolio/chat/db pending)
+└── planning/    # Project documentation and agent contracts
 ```
+
+`frontend/`, `test/`, `db/`, and `scripts/` are planned per [`planning/PLAN.md`](planning/PLAN.md) but not yet created.
 
 ## License
 
