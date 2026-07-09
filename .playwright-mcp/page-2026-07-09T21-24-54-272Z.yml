@@ -1,0 +1,202 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e2]:
+    - banner [ref=f2e3]:
+      - generic [ref=f2e4]:
+        - generic [ref=f2e5]: FinAlly
+        - generic [ref=f2e6]: AI Trading Workstation
+      - generic [ref=f2e7]:
+        - generic [ref=f2e8]:
+          - generic [ref=f2e9]: Total Value
+          - generic [ref=f2e10]: $23,680.00
+        - generic [ref=f2e11]:
+          - generic [ref=f2e12]: Unrealized P&L
+          - generic [ref=f2e14]:
+            - text: "+78.20"
+            - generic [ref=f2e15]: (+0.33%)
+        - generic [ref=f2e16]:
+          - generic [ref=f2e17]: Cash
+          - generic [ref=f2e18]: $10,000.00
+        - generic [ref=f2e19]:
+          - 'generic "Connection: LIVE" [ref=f2e20]'
+          - generic [ref=f2e23]: LIVE
+    - generic [ref=f2e24]:
+      - generic [ref=f2e25]:
+        - generic [ref=f2e26]:
+          - generic [ref=f2e27]:
+            - generic [ref=f2e28]:
+              - heading "Watchlist" [level=2] [ref=f2e31]
+              - generic [ref=f2e32]:
+                - textbox "Add ticker to watchlist" [ref=f2e33]:
+                  - /placeholder: ADD
+                - button "+" [ref=f2e34]
+            - generic [ref=f2e35]:
+              - generic [ref=f2e36]:
+                - generic [ref=f2e37]: Symbol
+                - generic [ref=f2e38]: Last
+                - generic [ref=f2e39]: Chg%
+                - generic [ref=f2e40]: Trend
+              - list [ref=f2e41]:
+                - listitem [ref=f2e42] [cursor=pointer]:
+                  - generic [ref=f2e43]: AAPL
+                  - generic [ref=f2e44]: "190.00"
+                  - generic [ref=f2e45]: +0.00%
+                  - button "Remove AAPL" [ref=f2e48]: ×
+                - listitem [ref=f2e49] [cursor=pointer]:
+                  - generic [ref=f2e50]: GOOGL
+                  - generic [ref=f2e51]: "175.00"
+                  - generic [ref=f2e52]: +0.00%
+                  - button "Remove GOOGL" [ref=f2e55]: ×
+                - listitem [ref=f2e56] [cursor=pointer]:
+                  - generic [ref=f2e57]: MSFT
+                  - generic [ref=f2e58]: "420.00"
+                  - generic [ref=f2e59]: +0.00%
+                  - button "Remove MSFT" [ref=f2e62]: ×
+                - listitem [ref=f2e63] [cursor=pointer]:
+                  - generic [ref=f2e64]: AMZN
+                  - generic [ref=f2e65]: "185.00"
+                  - generic [ref=f2e66]: +0.00%
+                  - button "Remove AMZN" [ref=f2e69]: ×
+                - listitem [ref=f2e70] [cursor=pointer]:
+                  - generic [ref=f2e71]: TSLA
+                  - generic [ref=f2e72]: "250.00"
+                  - generic [ref=f2e73]: +0.00%
+                  - button "Remove TSLA" [ref=f2e76]: ×
+                - listitem [ref=f2e77] [cursor=pointer]:
+                  - generic [ref=f2e78]: NVDA
+                  - generic [ref=f2e79]: "800.00"
+                  - generic [ref=f2e80]: +0.00%
+                  - button "Remove NVDA" [ref=f2e83]: ×
+                - listitem [ref=f2e84] [cursor=pointer]:
+                  - generic [ref=f2e85]: META
+                  - generic [ref=f2e86]: "500.00"
+                  - generic [ref=f2e87]: +0.00%
+                  - button "Remove META" [ref=f2e90]: ×
+                - listitem [ref=f2e91] [cursor=pointer]:
+                  - generic [ref=f2e92]: JPM
+                  - generic [ref=f2e93]: "195.00"
+                  - generic [ref=f2e94]: +0.00%
+                  - button "Remove JPM" [ref=f2e97]: ×
+                - listitem [ref=f2e98] [cursor=pointer]:
+                  - generic [ref=f2e99]: V
+                  - generic [ref=f2e100]: "280.00"
+                  - generic [ref=f2e101]: +0.00%
+                  - button "Remove V" [ref=f2e104]: ×
+                - listitem [ref=f2e105] [cursor=pointer]:
+                  - generic [ref=f2e106]: NFLX
+                  - generic [ref=f2e107]: "600.00"
+                  - generic [ref=f2e108]: +0.00%
+                  - button "Remove NFLX" [ref=f2e111]: ×
+          - generic [ref=f2e112]:
+            - generic [ref=f2e113]:
+              - generic [ref=f2e114]:
+                - generic [ref=f2e115]:
+                  - heading "Price" [level=2] [ref=f2e118]
+                  - generic [ref=f2e119]:
+                    - generic [ref=f2e120]: AAPL
+                    - generic [ref=f2e121]: $190.00
+                    - generic [ref=f2e122]: +0.00%
+                - application [ref=f2e126]:
+                  - generic [ref=f2e130]: "190.00"
+              - generic [ref=f2e134]:
+                - generic [ref=f2e135]:
+                  - heading "Portfolio Value" [level=2] [ref=f2e138]
+                  - generic "Change this session" [ref=f2e139]: "+352.57"
+                - application [ref=f2e143]:
+                  - generic [ref=f2e151]:
+                    - generic [ref=f2e152]: $23.5k
+                    - generic [ref=f2e154]: $23.6k
+                    - generic [ref=f2e156]: $23.8k
+                    - generic [ref=f2e158]: $23.9k
+            - generic [ref=f2e160]:
+              - generic [ref=f2e161]:
+                - generic [ref=f2e162]:
+                  - heading "Position Heatmap" [level=2] [ref=f2e165]
+                  - generic [ref=f2e166]: $13.7k invested
+                - img [ref=f2e170]:
+                  - generic [ref=f2e171]:
+                    - generic [ref=f2e175]:
+                      - generic [ref=f2e177]: NVDA
+                      - generic [ref=f2e178]: "-5.33%"
+                    - generic [ref=f2e182]:
+                      - generic [ref=f2e184]: TSLA
+                      - generic [ref=f2e185]: +4.82%
+                    - generic [ref=f2e189]:
+                      - generic [ref=f2e191]: AAPL
+                      - generic [ref=f2e192]: +7.71%
+                    - generic [ref=f2e196]:
+                      - generic [ref=f2e198]: MSFT
+                      - generic [ref=f2e199]: "-2.33%"
+                    - generic [ref=f2e203]:
+                      - generic [ref=f2e205]: META
+                      - generic [ref=f2e206]: +6.38%
+              - generic [ref=f2e207]:
+                - generic [ref=f2e208]:
+                  - heading "Positions" [level=2] [ref=f2e211]
+                  - generic [ref=f2e212]: 5 open
+                - table [ref=f2e214]:
+                  - rowgroup [ref=f2e215]:
+                    - row [ref=f2e216]:
+                      - columnheader "Symbol" [ref=f2e217]
+                      - columnheader "Qty" [ref=f2e218]
+                      - columnheader "Avg" [ref=f2e219]
+                      - columnheader "Last" [ref=f2e220]
+                      - columnheader "P&L" [ref=f2e221]
+                      - columnheader "%" [ref=f2e222]
+                  - rowgroup [ref=f2e223]:
+                    - row [ref=f2e224] [cursor=pointer]:
+                      - cell "NVDA" [ref=f2e225]
+                      - cell "6" [ref=f2e226]
+                      - cell "845.00" [ref=f2e227]
+                      - cell "800.00" [ref=f2e228]
+                      - cell "-270.00" [ref=f2e229]
+                      - cell "-5.33%" [ref=f2e230]
+                    - row [ref=f2e231] [cursor=pointer]:
+                      - cell "TSLA" [ref=f2e232]
+                      - cell "10" [ref=f2e233]
+                      - cell "238.50" [ref=f2e234]
+                      - cell "250.00" [ref=f2e235]
+                      - cell "+115.00" [ref=f2e236]
+                      - cell "+4.82%" [ref=f2e237]
+                    - row [ref=f2e238] [cursor=pointer]:
+                      - cell "AAPL" [ref=f2e239]
+                      - cell "12" [ref=f2e240]
+                      - cell "176.40" [ref=f2e241]
+                      - cell "190.00" [ref=f2e242]
+                      - cell "+163.20" [ref=f2e243]
+                      - cell "+7.71%" [ref=f2e244]
+                    - row [ref=f2e245] [cursor=pointer]:
+                      - cell "MSFT" [ref=f2e246]
+                      - cell "5" [ref=f2e247]
+                      - cell "430.00" [ref=f2e248]
+                      - cell "420.00" [ref=f2e249]
+                      - cell "-50.00" [ref=f2e250]
+                      - cell "-2.33%" [ref=f2e251]
+                    - row [ref=f2e252] [cursor=pointer]:
+                      - cell "META" [ref=f2e253]
+                      - cell "4" [ref=f2e254]
+                      - cell "470.00" [ref=f2e255]
+                      - cell "500.00" [ref=f2e256]
+                      - cell "+120.00" [ref=f2e257]
+                      - cell "+6.38%" [ref=f2e258]
+        - generic [ref=f2e259]:
+          - generic [ref=f2e260]: Order
+          - textbox "Ticker" [ref=f2e261]: AAPL
+          - textbox "Quantity" [ref=f2e262]: "10"
+          - generic [ref=f2e263]:
+            - text: est. $1,900.00
+            - generic [ref=f2e264]: "@ $190.00"
+          - generic [ref=f2e265]:
+            - button "Buy" [ref=f2e266]
+            - button "Sell" [ref=f2e267]
+      - generic [ref=f2e269]:
+        - banner [ref=f2e270]:
+          - heading "FinAlly Copilot" [level=2] [ref=f2e273]
+          - button "Collapse chat" [ref=f2e274]: ›
+        - generic [ref=f2e275]: I'm FinAlly, your trading copilot. Ask about your portfolio or risk, or just tell me to buy or sell — e.g. “buy 10 NVDA”.
+        - generic [ref=f2e279]:
+          - textbox "Message FinAlly" [ref=f2e280]:
+            - /placeholder: Ask FinAlly, or say “buy 10 NVDA”…
+          - button "Send" [disabled] [ref=f2e281]
+  - button "Open Next.js Dev Tools" [ref=f2e287] [cursor=pointer]
+  - alert [ref=f2e291]
+  - generic [ref=f2e292]: $23.3k

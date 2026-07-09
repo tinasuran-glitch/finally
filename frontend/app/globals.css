@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* FinAlly — terminal dark theme tokens (PLAN.md §2) */
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-bg: #0d1117;
+  --color-panel: #12161d;
+  --color-panel-2: #1a1a2e;
+  --color-border: #232a36;
+  --color-border-strong: #30363d;
+  --color-ink: #e6edf3;
+  --color-muted: #8b949e;
+  --color-faint: #5c6672;
+
+  --color-up: #3fb950;
+  --color-down: #f85149;
+  --color-accent: #ecad0a;
+  --color-blue: #209dd7;
+  --color-purple: #753991;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Tabular, aligned numeric columns */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Price flash on tick — brief tint that fades ~500ms (PLAN.md §2) */
+@keyframes flash-up {
+  0% {
+    background-color: color-mix(in srgb, var(--color-up) 32%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@keyframes flash-down {
+  0% {
+    background-color: color-mix(in srgb, var(--color-down) 32%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.flash-up {
+  animation: flash-up 550ms ease-out;
+}
+.flash-down {
+  animation: flash-down 550ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash-up,
+  .flash-down {
+    animation: none;
+  }
+}
+
+/* Thin, terminal-style scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 4px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
