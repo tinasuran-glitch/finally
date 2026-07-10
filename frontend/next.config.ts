@@ -6,10 +6,14 @@ import type { NextConfig } from "next";
 // doesn't support rewrites, hence the dev-only split.
 const isDev = process.env.NODE_ENV === "development";
 const BACKEND_ORIGIN =
-  process.env.BACKEND_ORIGIN ?? "http://localhost:8000";
+  process.env.BACKEND_ORIGIN ?? "http://127.0.0.1:8000";
 
 const nextConfig: NextConfig = isDev
   ? {
+      // This machine's localhost resolves to a colliding Docker container, so
+      // local testing uses 127.0.0.1. Next blocks cross-origin dev resources
+      // (breaking hydration/HMR) unless the host is allowlisted here.
+      allowedDevOrigins: ["127.0.0.1"],
       async rewrites() {
         return [
           { source: "/api/:path*", destination: `${BACKEND_ORIGIN}/api/:path*` },

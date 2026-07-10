@@ -14,6 +14,7 @@ import asyncio  # noqa: E402
 from contextlib import asynccontextmanager  # noqa: E402
 
 from fastapi import FastAPI  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from fastapi.staticfiles import StaticFiles  # noqa: E402
 
 from app import state  # noqa: E402
@@ -51,6 +52,24 @@ async def lifespan(app: FastAPI):
 state.price_cache = PriceCache()
 
 app = FastAPI(title="FinAlly", lifespan=lifespan)
+
+# Next.js's `next dev` rewrite proxy buffers streamed responses (~128KB) before
+# forwarding chunks, which breaks live SSE. So in dev the frontend connects its
+# EventSource directly to this backend instead of going through the proxy —
+# that needs CORS. Production is a same-origin static export (no dev server,
+# no proxy), so this middleware is unused there.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:3001",
+    ],
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
+
 app.include_router(health.router)
 app.include_router(portfolio.router)
 app.include_router(watchlist.router)

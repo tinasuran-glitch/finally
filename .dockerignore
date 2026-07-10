@@ -1,0 +1,39 @@
+# Version control
+.git
+.gitignore
+
+# Node
+node_modules
+**/node_modules
+.next
+**/.next
+frontend/out
+
+# Python
+backend/.venv
+**/.venv
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+
+# Runtime database (created inside the container via volume)
+db/*.db
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Test / tooling artifacts
+.playwright-mcp
+test/playwright-report
+test/test-results
+
+# Editor / OS cruft
+.DS_Store
+.vscode
+.idea
+.ruff_cache
+.pytest_cache
+.claude

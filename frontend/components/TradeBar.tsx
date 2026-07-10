@@ -27,13 +27,13 @@ export default function TradeBar() {
   const quantity = Number(qty);
   const est = price * (Number.isFinite(quantity) ? quantity : 0);
 
-  function trade(side: TradeSide) {
+  async function trade(side: TradeSide) {
     const q = Number(qty);
     if (!ticker || !Number.isFinite(q) || q <= 0) {
       flash(false, "Enter a ticker and a positive quantity.");
       return;
     }
-    const r = side === "buy" ? buy(ticker, q) : sell(ticker, q);
+    const r = side === "buy" ? await buy(ticker, q) : await sell(ticker, q);
     flash(r.ok, r.message);
   }
 

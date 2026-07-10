@@ -122,21 +122,7 @@
       "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\);print\\('SERVER now: cash',d['cash_balance'],'positions',len\\(d['positions']\\)\\)\")",
       "Bash(node /private/tmp/claude-501/-Users-tinahua-Desktop-vibe-coding--finally/f1564bef-eaaa-4d76-82f5-4743cc11256f/scratchpad/debug.mjs)",
       "Bash(docker build *)",
-      "Bash(echo \"build exit=$?\")",
-      "Bash(docker image *)",
-      "Bash(cat test-results/.last-run.json)",
-      "Bash(ls test-results/)",
-      "Bash(sort -k6,7)",
-      "Bash(docker exec *)",
-      "Bash(curl -s 127.0.0.1:8001/api/portfolio)",
-      "Bash(curl *)",
-      "mcp__plugin_playwright_playwright__browser_find",
-      "mcp__plugin_playwright_playwright__browser_snapshot",
-      "Bash(python3 -m json.tool)",
-      "Bash(grep -in \"volume\\\\|/app/db\\\\|WORKDIR\\\\|finally.db\\\\|DB_PATH\\\\|db/\" Dockerfile)",
-      "Bash(docker inspect *)",
-      "Bash(docker compose *)",
-      "Bash(open -a Docker)"
+      "Bash(echo \"build exit=$?\")"
     ]
   },
   "sandbox": {

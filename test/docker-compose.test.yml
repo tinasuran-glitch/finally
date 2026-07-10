@@ -1,0 +1,16 @@
+# E2E test stack: the FinAlly app container with a mocked LLM and an
+# ephemeral database (no volume) so every run starts from the fresh seeded
+# state ($10k cash, 10 default tickers, no positions).
+services:
+  finally-test:
+    image: finally:latest
+    container_name: finally-e2e
+    environment:
+      LLM_MOCK: "true"
+    ports:
+      - "127.0.0.1:8001:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
