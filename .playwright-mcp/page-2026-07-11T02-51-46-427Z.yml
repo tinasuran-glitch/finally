@@ -1,0 +1,147 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: FinAlly
+        - generic [ref=e6]: AI Trading Workstation
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - generic [ref=e9]: Total Value
+          - generic [ref=e10]: $10,000.00
+        - generic [ref=e11]:
+          - generic [ref=e12]: Unrealized P&L
+          - generic [ref=e14]:
+            - text: +$0.00
+            - generic [ref=e15]: (+0.00%)
+        - generic [ref=e16]:
+          - generic [ref=e17]: Cash
+          - generic [ref=e18]: $10,000.00
+        - generic [ref=e19]:
+          - 'generic "Connection: LIVE" [ref=e20]'
+          - generic [ref=e23]: LIVE
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - generic [ref=e28]:
+              - heading "Watchlist" [level=2] [ref=e31]
+              - generic [ref=e32]:
+                - textbox "Add ticker to watchlist" [ref=e33]:
+                  - /placeholder: ADD
+                - button "+" [ref=e34]
+            - generic [ref=e35]:
+              - generic [ref=e36]:
+                - generic [ref=e37]: Symbol
+                - generic [ref=e38]: Last
+                - generic [ref=e39]: Chg%
+                - generic [ref=e40]: Trend
+              - list [ref=e41]:
+                - listitem [ref=e42] [cursor=pointer]:
+                  - generic [ref=e43]: AAPL
+                  - generic [ref=e44]: "189.99"
+                  - generic [ref=e45]: +0.00%
+                  - button "Remove AAPL" [ref=e48]: ×
+                - listitem [ref=e49] [cursor=pointer]:
+                  - generic [ref=e50]: GOOGL
+                  - generic [ref=e51]: "174.98"
+                  - generic [ref=e52]: +0.00%
+                  - button "Remove GOOGL" [ref=e55]: ×
+                - listitem [ref=e56] [cursor=pointer]:
+                  - generic [ref=e57]: MSFT
+                  - generic [ref=e58]: "419.73"
+                  - generic [ref=e59]: +0.00%
+                  - button "Remove MSFT" [ref=e62]: ×
+                - listitem [ref=e63] [cursor=pointer]:
+                  - generic [ref=e64]: AMZN
+                  - generic [ref=e65]: "185.00"
+                  - generic [ref=e66]: +0.00%
+                  - button "Remove AMZN" [ref=e69]: ×
+                - listitem [ref=e70] [cursor=pointer]:
+                  - generic [ref=e71]: TSLA
+                  - generic [ref=e72]: "249.80"
+                  - generic [ref=e73]: +0.00%
+                  - button "Remove TSLA" [ref=e76]: ×
+                - listitem [ref=e77] [cursor=pointer]:
+                  - generic [ref=e78]: NVDA
+                  - generic [ref=e79]: "799.57"
+                  - generic [ref=e80]: +0.00%
+                  - button "Remove NVDA" [ref=e83]: ×
+                - listitem [ref=e84] [cursor=pointer]:
+                  - generic [ref=e85]: META
+                  - generic [ref=e86]: "499.94"
+                  - generic [ref=e87]: +0.00%
+                  - button "Remove META" [ref=e90]: ×
+                - listitem [ref=e91] [cursor=pointer]:
+                  - generic [ref=e92]: JPM
+                  - generic [ref=e93]: "194.99"
+                  - generic [ref=e94]: +0.00%
+                  - button "Remove JPM" [ref=e97]: ×
+                - listitem [ref=e98] [cursor=pointer]:
+                  - generic [ref=e99]: V
+                  - generic [ref=e100]: "279.98"
+                  - generic [ref=e101]: +0.00%
+                  - button "Remove V" [ref=e104]: ×
+                - listitem [ref=e105] [cursor=pointer]:
+                  - generic [ref=e106]: NFLX
+                  - generic [ref=e107]: "599.87"
+                  - generic [ref=e108]: +0.00%
+                  - button "Remove NFLX" [ref=e111]: ×
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - heading "Price" [level=2] [ref=e118]
+                  - generic [ref=e119]:
+                    - generic [ref=e120]: AAPL
+                    - generic [ref=e121]: $189.99
+                    - generic [ref=e122]: +0.00%
+                - application [ref=e126]:
+                  - generic [ref=e130]: "189.99"
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - heading "Portfolio Value" [level=2] [ref=e138]
+                  - generic "Change this session" [ref=e139]: +$0.00
+                - application [ref=e143]
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]:
+                  - heading "Position Heatmap" [level=2] [ref=e149]
+                  - generic [ref=e150]: $0 invested
+                - generic [ref=e151]: No positions yet — buy something to see it here.
+              - generic [ref=e153]:
+                - generic [ref=e154]:
+                  - heading "Positions" [level=2] [ref=e157]
+                  - generic [ref=e158]: 0 open
+                - table [ref=e160]:
+                  - rowgroup [ref=e161]:
+                    - row [ref=e162]:
+                      - columnheader "Symbol" [ref=e163]
+                      - columnheader "Qty" [ref=e164]
+                      - columnheader "Avg" [ref=e165]
+                      - columnheader "Last" [ref=e166]
+                      - columnheader "P&L" [ref=e167]
+                      - columnheader "%" [ref=e168]
+                  - rowgroup [ref=e169]:
+                    - row [ref=e170]:
+                      - cell "You hold no positions. Use the trade bar or ask FinAlly to buy." [ref=e171]
+        - generic [ref=e172]:
+          - generic [ref=e173]: Order
+          - textbox "Ticker" [ref=e174]: AAPL
+          - textbox "Quantity" [ref=e175]: "10"
+          - generic [ref=e176]:
+            - text: est. $1,899.90
+            - generic [ref=e177]: "@ $189.99"
+          - generic [ref=e178]:
+            - button "Buy" [ref=e179]
+            - button "Sell" [ref=e180]
+      - generic [ref=e182]:
+        - banner [ref=e183]:
+          - heading "FinAlly Copilot" [level=2] [ref=e186]
+          - button "Collapse chat" [ref=e187]: ›
+        - generic [ref=e188]: I'm FinAlly, your trading copilot. Ask about your portfolio or risk, or just tell me to buy or sell — e.g. “buy 10 NVDA”.
+        - generic [ref=e192]:
+          - textbox "Message FinAlly" [ref=e193]:
+            - /placeholder: Ask FinAlly, or say “buy 10 NVDA”…
+          - button "Send" [disabled] [ref=e194]
+  - alert [ref=e195]
+  - generic [ref=e196]: "189.99"
