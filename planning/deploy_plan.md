@@ -1,8 +1,8 @@
 # Fly.io Deployment — Plan & Record
 
-**Status:** Complete, deployed, verified end-to-end.
+**Status:** Deployed and verified end-to-end on 2026-07-10, then torn down on 2026-07-10 (`flyctl apps destroy finally-trading`) to stop incurring cost while a code change is pending on a branch. App, machine, and volume were all deleted — the setup below is a from-scratch redeploy procedure, not a running deployment.
 
-**Live URL:** https://finally-trading.fly.dev
+**Live URL:** https://finally-trading.fly.dev (currently offline — app no longer exists)
 
 ## Why
 
@@ -100,3 +100,7 @@ A React hydration warning (minified error #418) appears in the browser console o
 
 - Custom domain: `flyctl certs add <domain>` + a DNS record, in place of `*.fly.dev`.
 - `flyctl ips allocate-v4` for a dedicated IPv4 (currently on Fly's shared IPv4 + dedicated IPv6).
+
+## Redeploying from scratch (current state)
+
+The app was fully destroyed, including the volume — the seeded $10k / no-positions state will be fresh again on next deploy (no data survived the teardown). To bring it back up: rerun the "One-time setup" commands above in order (`apps create` → `volumes create` → `secrets set`), then `flyctl deploy -a finally-trading`. If `finally-trading` is no longer available as an app name, pick a new one and update `app =` in `fly.toml` (repo root) to match before deploying.
